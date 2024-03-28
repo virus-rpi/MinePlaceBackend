@@ -7,15 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-origins = [
-    "http://localhost",
-    "http://localhost:3000",
-    "http://192.168.178.53:8080",
-    "http://192.168.178.53"
-    "http://dev_mineplace.virusrpi.com",
-    "https://mineplace.vercel.app/",
-    "https://dev_mineplace_backend.virusrpi.com",
-]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
