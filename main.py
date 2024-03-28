@@ -1,4 +1,7 @@
+from typing import List
+
 from fastapi import FastAPI
+from pydantic import BaseModel
 from starlette.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -39,15 +42,25 @@ async def get_textures(name: str):
 @app.get("/shops/get_all")
 async def get_all_shops():
     global shops
+    with open("database.txt", "r") as file:
+        shops_string = file.readline()
+        shops = eval(shops_string)
     return {"shops": shops}
 
 
-@app.get("/shops/create/{name}/{owner}/{location}/{items}")
-async def create_shop(name, owner, location, items):
+class Shop(BaseModel):
+    name: str
+    owner: str
+    location: str
+    items: List[str]
+
+
+@app.post("/shops/create")
+async def create_shop(shop: Shop):
     rating: float = -1.0
-    print(name, owner, location, [items])
+    print(shop.name, shop.owner, shop.location, shop.items)
     global shops
-    shops.append({"name": name, "owner": owner, "location": location, "rating": rating, "items": [items]})
+    shops.append({"name": shop.name, "owner": shop.owner, "location": shop.location, "rating": rating, "items": shop.items})
     with open("database.txt", "w") as file:
         file.write(str(shops))
     return {"id": {}}
