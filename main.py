@@ -13,6 +13,7 @@ origins = [
     "http://192.168.178.53:8080",
     "http://192.168.178.53"
     "http://dev_mineplace.virusrpi.com",
+    "https://mineplace.vercel.app/"
 ]
 
 app.add_middleware(
